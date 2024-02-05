@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="admin">
+	<sql id="search">
+		SELECT * FROM admin
+			<where>
+			<if test="search == 1 and keyword != null">
+				admin_id LIKE CONCAT('%', CONCAT(#{keyword},'%'))
+			</if>
+			
+			<if test="search == 2 and keyword != null">
+				admin_name LIKE CONCAT('%', CONCAT(#{keyword},'%'))
+			</if>
+		</where>
+	</sql>
+	
+	<select id="total" resultType="Integer">
+		SELECT COUNT(*) FROM
+			(<include refid="search"></include>) sub
+	</select>
+
+	<select id="list" resultType="AdminVo">
+		SELECT * FROM
+		(<include refid="search"></include>) sub
+		ORDER BY admin_id DESC
+		LIMIT #{offset}, #{perPage}
+	</select>	
+	
+	<!-- 디폴트값(기본값 => erd 에서 설정해 두어서),(id,passwd) 입력해주어야하는것만 괄호안에 넣어줌 -->
+	<insert id="add">
+		INSERT INTO admin
+		(admin_id, admin_pw, admin_name, admin_state)
+		VALUES (#{adminId}, PASSWORD(#{adminPw}), #{adminName}, #{adminState})
+	</insert>
+	
+	<update id="update">
+		UPDATE admin
+		SET admin_id=#{adminId}, admin_name=#{adminName}, admin_state=#{adminState}
+		WHERE admin_Id=#{adminId}
+	</update>
+	
+	<delete id="delete">
+		DELETE FROM admin
+		WHERE admin_Id=#{adminId}
+	</delete>
+		
+	<!-- resultType을 쓰는 이유는 mybatis 에서 쓰기 좋게 바꿔주려고 User 라는 객체를 씀(mybatis에서 User라는 객체를 
+	만들어줌 => 데이터베이스에서 얻은 값들을 찾아서 item에 주기위해 -->
+	<select id="item" resultType="AdminVo" >
+		SELECT * FROM admin
+		WHERE admin_id=#{adminId}
+	</select>
+	
+	<!-- 사용자가 입력한 패스워드 랑 암호화된 값과 같다면 같은 패스워드 를 얻어옴. (사용자)passwd= 
+	(암호화 패스워드)PASSWORD(#{passwd})-->
+	<select id="login" resultType="AdminVo">
+		SELECT * FROM admin
+		WHERE admin_id=#{adminId} AND admin_pw=PASSWORD(#{adminPw}) AND admin_state = 1
+	</select>
+	
+</mapper>

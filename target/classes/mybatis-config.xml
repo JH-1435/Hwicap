@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+	<settings>
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+	</settings>
+	
+	<typeAliases>
+		<typeAlias type="kr.ac.jh.keycap.model.AdminVo" alias="AdminVo"/>
+		<typeAlias type="kr.ac.jh.keycap.model.UserVo" alias="UserVo"/>
+		<typeAlias type="kr.ac.jh.keycap.model.KeycapVo" alias="KeycapVo" />
+		<typeAlias type="kr.ac.jh.keycap.model.CartVo" alias="CartVo"/>
+		<typeAlias type="kr.ac.jh.keycap.model.HeartVo" alias="HeartVo"/>
+		<typeAlias type="kr.ac.jh.keycap.model.OrdersVo" alias="OrdersVo"/>
+		<typeAlias type="kr.ac.jh.keycap.model.ReviewVo" alias="ReviewVo"/>
+		<typeAlias type="kr.ac.jh.keycap.model.BoardVo" alias="BoardVo"/>
+	</typeAliases>
+	
+	<mappers>
+		<mapper resource="mybatis/admin.xml"/>
+		<mapper resource="mybatis/user.xml"/>
+		<mapper resource="mybatis/keycap.xml" />
+		<mapper resource="mybatis/cart.xml" />
+		<mapper resource="mybatis/heart.xml"/>
+		<mapper resource="mybatis/orders.xml"/>
+		<mapper resource="mybatis/review.xml"/>
+		<mapper resource="mybatis/board.xml"/>
+	</mappers>
+
+</configuration>

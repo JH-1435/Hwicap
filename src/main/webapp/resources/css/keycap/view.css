@@ -1,0 +1,252 @@
+.product-details {
+    position: relative;
+    border: 1px solid #ededed;
+    background-color: #fff;
+    height: 600px;
+}
+.product-details > .product-left {
+	float: left;
+    width: 50%;
+    margin: -1px 0 0 -1px;
+}
+.product-left > .product-photo {
+	float: left;
+    position: relative;
+    width: 510px;
+    height: 510px;
+    margin-bottom: 28px;
+}
+.product-left > .product-photo > .product-photo-img {
+	position: relative;
+    width: 510px;
+    height: 510px;
+}
+#photo-img {
+	position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+}
+.product-details > .product-content {
+    display: inline-block;
+    line-height: 24px;
+    vertical-align: top;
+}
+.product-details > .product-content span {
+	display: inline-block;
+    margin-right: 4px;
+    font-size: 12px;
+    color: #555;
+    vertical-align: top;
+}
+.product-details > .product-content strong {
+	display: inline-block;
+    font-family: tahoma,helvetica,"\B098\B214\ACE0\B515","Nanum Gothic","\B098\B214\C2A4\D018\C5B4","Nanum Square","Apple SD Gothic Neo","Malgun Gothic","\B9D1\C740 \ACE0\B515",dotum,"\B3CB\C6C0",sans-serif;
+    font-size: 20px;
+    color: #000;
+    letter-spacing: -1px;
+    vertical-align: top;
+}
+.product-details > .product-right {
+	float: right;
+    padding: 30px 39px 30px 40px;
+    width: 509px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    text-align: left;
+    height: 100%;
+}
+#product-name {
+	display: inline;
+    margin-right: 8px;
+    font-size: 18px;
+    color: #222;
+    word-break: break-all;
+    word-wrap: break-word;
+    vertical-align: top;
+    font-weight: bold;
+}
+#product-price {
+	display: inline-block;
+    font-size: 24px;
+    color: #000;
+    vertical-align: top;
+    float: right;
+}
+#product-total {
+	position: relative;
+    display: inline-block;
+    color: #999999;
+    vertical-align: top;
+}
+#product-total-blue {
+	color: #6b90dc;
+	display: inline-block;
+    font-size: 18px;
+    vertical-align: top;
+}
+#product-add-btn {
+	position: relative;
+    z-index: 0;
+    display: flex;
+    height: 50px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    border-radius: 3px;
+    background-color: #434343;
+    color: #fff;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+#product-add-btn:hover {
+	background-color: #333;
+}
+.product-right > .product-btn-font {
+	line-height: 50px;
+    font-size: 16px;
+}
+#product-cell-btn {
+	position: relative;
+    display: flex;
+    height: 50px;
+    border: 1px solid #dcdcdc;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    border-radius: 3px;
+    background-color: #fff;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+#product-cell-btn:hover {
+	border: 1px solid #333;
+}
+.contents > .product-row {
+	display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+.product-data > .image img {
+	width: 1020px;
+}
+.tab {
+	margin-top: 40px; 
+	margin-bottom: 29px;
+	position: relative;
+    border-bottom: 1px solid #3d3d4f;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+.tab > .tab-table {
+	display: table;
+	table-layout: fixed;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+.tab > .tab-table > .tab-cell {
+	display: table-cell;
+    vertical-align: top;
+}
+.tab > .tab-table > .tab-cell > .tablinks {
+	display: block;
+    position: relative;
+    height: 42px;
+    background-color: #f3f5f7;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 43px;
+    color: #333;
+    text-align: center;
+}
+.tab > .tab-table > .tab-cell > .tablinks[aria-current=true] {
+	background-color: #3d3d4f;
+    color: #fff;
+}
+.nav-tab {
+	min-width: 1320px;
+	position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 10000;
+    border-bottom: 1px solid #3a3b4e;
+    background-color: #fff;
+}
+.product-details > .product-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.product-label {
+    margin: 0 5px;
+}
+.review-card {
+	display: block;
+    font-size: 13px;
+    color: #000;
+}
+.keycapView-reviewContent {
+	overflow: hidden;
+	text-overflow: ellipsis;
+    line-height: 22px;
+    display: -webkit-box;
+    word-wrap: break-word;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    word-break: break-all;
+    position: relative;
+    margin-top: 9px;
+    font-size: 13px;
+    color: #5f5f5f;
+    text-align: left;
+}
+#qna-add-btn {
+	display: inline-block;
+    padding: 0 15px;
+    height: 34px;
+    background-color: #333333;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+    line-height: 34px;
+    color: #ffffff;
+    vertical-align: top;
+}
+#qna-list-btn {
+	display: inline-block;
+    padding: 0 12px 0 15px;
+    height: 34px;
+    background-color: #999999;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+    line-height: 34px;
+    color: #ffffff;
+    vertical-align: top;
+}
+.qnaTable-cell {
+	display: table-cell;
+    padding: 16px 0;
+    font-size: 14px;
+    line-height: 18px;
+    color: #5f5f5f;
+    text-align: center;
+    vertical-align: middle;
+}
+.qnaTable-cell > .qnaTable-cell-font {
+	font-weight: bold;
+    line-height: 18px;
+    letter-spacing: -1.2px;
+}
+.flex-table {
+	display: table;
+    width: 100%;
+    table-layout: fixed;
+}  

@@ -1,0 +1,14 @@
+.boardContent img, .boardAnswer img {
+	width: 307px;
+	height: auto;
+	border: 1px solid black;
+}
+.content-text.boardContent img {
+	width: 307px;
+    height: auto;
+    cursor:pointer;
+}
+.board-img > .image img {
+	max-width: 1260px;
+	height: auto;
+}

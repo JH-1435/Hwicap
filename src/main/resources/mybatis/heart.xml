@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="heart">
+<!--  Map, join -->
+	  <resultMap type="HeartVo" id="HeartMap"> 
+		<id column="heart_num" property="heartNum" />
+		<result column="user_id" property="userId" />
+		<result column="keycap_num" property="keycapNum" />
+
+		<collection property="keycap" column="knm" ofType="KeycapVo" javaType="ArrayList">
+			<id column="keycap_num" property="keycapNum" />
+			<result column="keycap_id" property="keycapId" />
+			<result column="keycap_reg_date" property="keycapRegDate" />
+			<result column="keycap_name" property="keycapName" />
+			<result column="keycap_stock" property="keycapStock" />
+			<result column="keycap_img" property="keycapImg" />
+			<result column="keycap_read_count" property="keycapReadCount" />
+			<result column="keycap_like" property="keycapLike" />
+			<result column="keycap_price" property="keycapPrice" />
+			<result column="keycap_category" property="keycapCategory" />
+			<result column="keycap_order" property="keycapOrder" />
+			<result column="keycap_content" property="keycapContent" />
+			<result column="admin_id" property="adminId" />
+		 </collection>
+	</resultMap>
+	
+	<select id="total" resultType="Integer">
+		SELECT COUNT(*) FROM heart
+		WHERE  user_id=#{userId}
+	</select>
+	
+	<!-- 찜 리스트보기 -->
+	<select id="list" resultMap="HeartMap">
+		SELECT heart.*, keycap.keycap_num knm, keycap.keycap_id, keycap.keycap_name, keycap.keycap_price,
+		keycap.keycap_img, keycap.keycap_like, keycap.keycap_category
+		FROM heart 
+		JOIN keycap ON heart.keycap_num = keycap.keycap_num
+		WHERE heart.user_id=#{userId}
+		ORDER BY heart.heart_num DESC
+		LIMIT #{pager.offset}, #{pager.perPage}
+ 	</select>
+ 	
+ <!-- 찜하기 중복 체크 -->
+	<select id="selectCountInHeart" resultType="String" parameterType="HeartVO">
+	<![CDATA[
+		SELECT IF(COUNT(*) <= 0, 'false', 'true') FROM heart
+		WHERE keycap_num=#{keycapNum} AND user_id=#{userId}
+		ORDER BY heart_num DESC
+	]]>
+ 	</select>
+ 	
+	<insert id="add" parameterType="HeartVO">
+		INSERT INTO heart
+		(heart_num, keycap_num, user_id)
+		VALUES ((SELECT * FROM (SELECT IFNULL(MAX(heart_num), 0) + 1 FROM heart) AS heartNum), #{keycapNum}, #{userId})
+		
+	</insert>
+	
+	<delete id="delete">
+		DELETE FROM heart
+		WHERE keycap_num=#{keycapNum} AND user_id=#{userId}
+	</delete>
+	
+	<!-- 찜내역 각각의 값(데이터베이스에서 얻은 값들을 찾아서 item에 주기위해) -->
+	  <select id="item" resultMap="HeartMap">
+		SELECT heart.*, keycap.keycap_num knm, keycap.keycap_id, keycap.keycap_name, keycap.keycap_price,
+		keycap.keycap_img, keycap.keycap_like, keycap.keycap_category
+		FROM heart 
+		LEFT JOIN keycap ON heart.keycap_num = keycap.keycap_num
+		GROUP BY heart.heart_num
+		HAVING heart.user_id=#{userId}
+		ORDER BY heart.heart_num DESC
+	</select>
+</mapper>

@@ -1,0 +1,153 @@
+.announcement-list2 {
+	margin-bottom: 30px;
+    padding: 250px 0;
+    border-bottom: 1px solid #dadada;
+    text-align: center;
+}
+.announcement-list2 strong {
+	display: block;
+    font-size: 18px;
+    font-weight: normal;
+}
+.announcement-list2-textbox {
+	display: inline-block;
+    text-align: left;
+    vertical-align: top;
+}
+.announcement-list2-textbox ul {
+    margin-top: 20px;
+    font-size: 13px;
+    line-height: 1.85em;
+    color: #888;
+}
+.announcement-list2-textbox li::before {
+    content: "-";
+    margin-right: 4px;
+}
+
+.announcement-text .title-s {
+	display: block;
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    line-height: 48px;
+    word-break: break-all;
+    white-space: nowrap;
+    word-wrap: normal;
+    font-size: 32px;
+    text-align: center;
+}
+}
+.announcement-text p {
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.announcement-list {
+	<!-- margin: 0 -18px; -->
+	margin: 0 auto;
+    width: 100%;
+    clear: both;
+    padding-inline-start: 0;
+}
+.announcement-list,
+.announcement-indexViewPort {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    padding: 0;
+}
+.announcement-list li,
+.announcement-indexVeiwPort li {
+    flex: 0 0 calc(25% - 20px);
+    margin: 10px 7px;
+    box-sizing: border-box;
+    position: relative;
+}
+.announcement-list > .announcement-list-li:hover img,
+.announcement-indexVeiwPort > .announcement-indexVeiwPort-li:hover img {
+    transition: transform 0.3s ease-in-out;
+    transform: scale(1.1);  /* 1.1배 확대 */
+}
+
+.announcement-list .announcement-item {
+	position: relative;
+}
+.announcement-list .announcement-item a { 
+	position: relative;
+    display: block;
+    color: #000;
+}
+.announcement-item-s {
+	margin-top: 12px;
+    padding-right: 16px;
+    font-size: 13px;
+    color: #000;
+    line-height: 17px;
+    text-align: left;
+}
+.announcement-item .announcement-item-s .announcement-item-sp{
+	font-family: tahoma,helvetica,"\B098\B214\ACE0\B515",
+    "Nanum Gothic","\B098\B214\C2A4\D018\C5B4","Nanum Square",
+    "Apple SD Gothic Neo","Malgun Gothic","\B9D1\C740 \ACE0\B515",dotum,
+    "\B3CB\C6C0",sans-serif;
+}
+.announcement-list li ul li, 
+.announcement-indexVeiwPort li ul li {
+	margin: 0 auto;
+    width: 205px;
+    clear: both;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.announcement-list li .announcement-avatar, 
+.announcement-indexVeiwPort li .announcement-avatar {
+    border: 1px solid #ddd;
+    border-radius: 10%;
+    width: 300px;
+    height: 300px;
+    margin-right: auto;
+    margin-left: auto;
+    vertical-align: middle;
+}
+.announcemen-box {
+	display: table;
+    table-layout: fixed;
+    width: 100%;
+    min-height: 130px;
+    font-family: "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    line-height: 1.5;
+    font-size: 14px;
+    text-align: left;
+    position: relative;
+    margin: 10px 0;
+}
+.announcemen-box > .img-block {
+	display: table-cell;
+    width: 130px;
+    vertical-align: middle;
+    position: relative;
+    overflow: hidden;
+}
+.img-block img {
+	width: 100%;
+    position: absolute;
+    left: 0;
+    top: 20%;
+}
+.announcemen-box > .info {
+	width: 100%;
+	display: table-cell;
+    padding-left: 10px;
+    vertical-align: middle;
+}
+.announcemen-box > .info > .category {
+	font-weight: 300;
+}
+.announcemen-box > .info .name a:hover,
+.announcemen-box > .info > .category a:hover {
+	color: #0078ff;
+	border-bottom: 1px solid #0078ff;
+}

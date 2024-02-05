@@ -1,0 +1,134 @@
+@charset "UTF-8";
+
+.sign-wrap {
+	max-width:1260px;
+	margin:0 auto;
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.signup-text {
+	margin-top: -10px;
+    position: relative;
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #999;
+    padding-bottom: 30px;
+}
+.signup-form {
+	background: #ffffff;
+    max-width: 646px;
+    height: 60vh;
+    overflow: hidden;
+    margin: 0 auto;
+    position: relative;
+    align-self: center; /* 부모 요소의 중앙에 정렬 */
+}
+.signup-list ul {
+	display: table-row;
+	width: 100%;
+}
+.signup-list ul li {
+	display: table-cell;
+    border-top: 1px #ddd solid;
+    border-left: 1px #eee solid;
+    padding: 8px;
+    color: #666;
+    vertical-align: middle;
+    text-align: left;
+    width: 200%; /* colspan=2 는 td에서 쓸수 있지만 width: 200% 함으로써 같은 방식이다. */
+}
+.signup-list ul > li.th {
+	width: 100%;
+	height: 70px;
+    text-align: left;
+    padding: 0;
+    background: #f8f8f8;
+    color: #333;
+    display: flex;
+    justify-content: space-between; /* 가로 방향으로 중앙 정렬 */
+    align-items: center; /* 세로 방향으로 중앙 정렬 */
+    min-width: 160px;
+}
+.signup-list ul > li.th > p {
+	padding: 8px 22px 8px 10px;
+	color: #333;
+}
+.signup-list ul > li.td > .userTel {
+	width: 61px;
+	float: none;
+}
+.signup-list ul > li > select {
+	border: 1px solid #ccc;
+    background: #fff;
+    height: 32px;
+    min-width: 50px;
+    padding: 0 0 0 5px;
+    border-radius: 2px;
+    font-size: 13px;
+    vertical-align: bottom;
+    max-width: 100%;
+    -webkit-appearance: menulist;
+}
+.signup-list ul li > em {
+	margin: 0 5px;
+}
+.fas.fa-check {
+	margin: 0 5px;
+	color: #FF4500;
+}
+.signup-list ul li button {
+	float: left;
+	font-size: 13px;
+	height: 32px;
+    min-width: 50px;
+    vertical-align: bottom;
+    max-width: 100%;
+    -webkit-appearance: menulist;
+    margin-left: 5px;
+}
+.signup-list ul li input {
+	box-sizing: border-box;
+    padding: 0 9px;
+    width: 224.38px;
+    height: 32px;
+    font-size: 14px;
+    line-height: 32px;
+    color: #333;
+    border: 1px #ccc solid;
+    border-radius: 2px;
+    text-indent: 0;
+    vertical-align: middle;
+    float: left;
+}
+.signup-list ul li input.userAddress1,
+.signup-list ul li input.userAddress2
+{
+	width: 120px;
+}
+.signup-list ul li input.userAddress2 {
+    float: none;
+}
+#signup02 .signup-btn {
+	width: 100%;
+	border-color: #434343;
+    background-color: #434343;
+    color: #fff;
+    height: 42px;
+    font-size: 17px;
+    line-height: 40px;
+    min-width: 100px;
+    padding: 0 14px;
+    cursor: pointer;
+    box-sizing: border-box;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 2px;
+    transition: border-color 0.2s, background-color 0.2s;
+    margin-top: 10px;
+}
+#signup02 .signup-btn:hover {
+	background-color: #333;
+}

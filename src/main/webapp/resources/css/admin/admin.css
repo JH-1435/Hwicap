@@ -1,0 +1,94 @@
+@charset "UTF-8";
+
+#overflow-hidden-admin {
+	overflow: hidden;
+	min-height: 25vh;
+}
+#overflow-hidden-admin02 {
+	overflow: hidden;
+	min-height: 47px;
+}
+#overflow-hidden-admin03 {
+	overflow: hidden;
+	min-height: 103px;
+}
+#overflow-hidden-admin04 {
+	overflow: hidden;
+	min-height: 9px;
+}
+.p-color {
+	color:red;
+	float: left;
+	padding: 5px 0px;
+	margin-left: 10px;
+}
+.board-view02 .photo-box .photo-big 
+#update-p {
+	font-weight: 600;		
+	margin-top: -10px;
+}
+.admin-main-text {
+	width: 100%;
+	margin: 130px 0px 0px -230px;
+}
+.admin-main-text h2 {
+	font-weight: 600;
+	font-size: 20px;
+	margin-top: 10px;
+}
+.admin-main-text ul li:before {
+	content: ">";
+	padding: 0px 5px 6px 0px;
+}
+
+.admin-btn {
+	white-space: nowrap;
+    width: 105px;
+    min-width: 90px;
+    margin: 4px auto;
+    border: 1px solid #333;
+    background-color: #333;
+    eight: 32px;
+    line-height: 30px;
+    padding-top: 0;
+    font-family: "Apple SD Gothic Neo", "Noto Sans KR", sans-serif !important;
+    color: white;
+    cursor: pointer;
+    display: inline-block;
+}
+.admin-btn:hover {
+	background-color: #0078ff;
+    border: 1px solid #0078ff;
+}
+
+.left-wrap {
+	display: flex;
+    flex-direction: column;
+    text-align: left;
+    justify-content: center;
+    margin-top: 50px;
+    position: absolute;
+    left: 7%;
+}
+.left-wrap > .admin-list-nav {
+	width: 100%;
+    border-top: 1px solid #e6e6e6;
+    padding-inline-start: 0;
+}
+.left-wrap > .admin-list-nav li {
+    border-bottom: 1px solid #e6e6e6;
+}
+.left-wrap > .admin-list-nav li a {
+    color: #505050;
+    font-weight: 600;
+    padding: 10px 10px;
+    display: block;
+}
+.left-wrap > .admin-list-nav li a:hover {
+	background-color: #0078ff;
+	color: #fff;
+}
+.left-wrap > .admin-list-nav li a.on {
+	color: #fff;
+	background-color: #333;
+}

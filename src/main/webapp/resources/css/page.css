@@ -1,0 +1,37 @@
+@charset "UTF-8";
+
+#page-wrap {
+	width: 100%;
+    overflow: hidden;
+}
+#page-wrap .group-page {
+	width: 100%;
+    margin: 40px auto 0 0;
+    padding: 0;
+    color: #cccccc;
+    font-size: 13px;
+    text-align:center;
+}
+#page-wrap .group-page .page-nation li {
+	display:inline-block;
+}
+#page-wrap .group-page .page-nation a {
+	display:block;
+	margin:0 3px;
+	float:left;
+	width:34px;
+	height:34px;
+	line-height:34px;
+	text-align:center;
+	font-size:13px;
+	color:#999999;
+	text-decoration:none;
+}
+#page-wrap .group-page .page-nation .page-nation-prev {
+	width:60px;
+}
+#page-wrap .group-page .page-nation 
+.active a{
+	color: #fff;
+	background-color: #2f2f2f;
+}

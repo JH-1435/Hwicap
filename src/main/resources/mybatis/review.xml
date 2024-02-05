@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="review">
+<!--  Map, join -->
+	  <resultMap type="ReviewVo" id="ReviewMap"> 
+		<id column="review_num" property="reviewNum" />
+		<result column="review_content" property="reviewContent" />
+		<result column="review_star" property="reviewStar" />
+		<result column="review_img" property="reviewImg" />
+		<result column="review_date" property="reviewDate" />
+		<result column="order_seq_num" property="orderSeqNum" />
+		<result column="user_id" property="userId" />
+		<result column="keycap_num" property="keycapNum" />
+
+		<collection property="orders" column="onm" ofType="OrdersVo" javaType="ArrayList">
+			<id column="order_seq_num" property="orderSeqNum" />
+			<result column="keycap_name" property="keycapName" />
+			<result column="order_img" property="orderImg" />
+			<result column="order_state" property="orderState" />
+			<result column="keycap_num" property="keycapNum" />
+			<result column="user_id" property="userId" />
+		 </collection>
+		 
+		 <collection property="keycap" column="knm" ofType="KeycapVo" javaType="ArrayList">
+			<id column="keycap_num" property="keycapNum" />
+			<result column="keycap_category" property="keycapCategory" />
+
+			<result column="admin_id" property="adminId" />
+		 </collection>
+	</resultMap>
+	
+	<select id="total" resultType="Integer">
+		SELECT COUNT(*) FROM review
+		WHERE review.keycap_num=#{review.keycapNum}
+	</select>
+	
+	<select id="totalUser" resultType="Integer">
+		SELECT COUNT(*) FROM review
+		WHERE review.user_id=#{userId}
+	</select>
+	
+	<!-- 상품에 대한 리뷰 수 -->
+	<select id="totalReview" resultType="Integer">
+		SELECT COUNT(*)
+		FROM review
+		WHERE keycap_num =#{keycapNum}
+	</select>
+	
+	<!-- 상품 리뷰내역 -->
+	<select id="list" resultMap="ReviewMap">
+		SELECT review.*, orders.order_seq_num onm, orders.keycap_name, orders.order_img, orders.order_state,
+		keycap.keycap_category
+		FROM review
+		LEFT JOIN orders ON review.keycap_num = orders.keycap_num
+		JOIN keycap ON keycap.keycap_num = review.keycap_num
+		GROUP BY review.review_num
+		HAVING review.keycap_num=#{keycapNum}
+		ORDER BY review.review_num DESC
+		LIMIT #{pager.offset}, #{pager.perPage}
+	</select>
+	
+	<!-- 회원 각각의 자신의 리뷰내역 -->
+	<select id="listUser" resultMap="ReviewMap">
+		SELECT review.*, orders.order_seq_num onm, orders.keycap_name, orders.order_img, orders.order_state,
+		keycap.keycap_category 
+		FROM review
+		LEFT JOIN orders ON review.order_seq_num = orders.order_seq_num
+		JOIN keycap ON keycap.keycap_num = review.keycap_num
+		GROUP BY review.review_num
+		HAVING review.user_id=#{pager.userId}
+		ORDER BY review.review_date DESC
+		LIMIT #{pager.offset}, #{pager.perPage}
+	</select>	
+	
+	<!-- #{}은 필드명, mybatis-config 에서 세팅해주면 이것을 자동으로 고쳐줌(자바표기법:낙타 표기법) -->
+	<!-- reviewImg에 null이 들어가는것을 방지하기 위해 if문을 씀 -->
+	<insert id="add">
+	<if test="reviewImg == null">
+		INSERT INTO review
+		(review_num, order_seq_num, user_id, review_content, review_date, review_star, keycap_num)
+		VALUES ((SELECT * FROM (SELECT IFNULL(MAX(review_num), 0) + 1 FROM review) AS reviewNum), #{orderSeqNum}, #{userId}, #{reviewContent}, NOW(),
+		#{reviewStar}, #{keycapNum})
+	</if>
+	<if test="reviewImg != null">
+		INSERT INTO review
+		(review_num, order_seq_num, user_id, review_content, review_date, review_star, review_img, keycap_num)
+		VALUES ((SELECT * FROM (SELECT IFNULL(MAX(review_num), 0) + 1 FROM review) AS reviewNum), #{orderSeqNum}, #{userId}, #{reviewContent}, NOW(),
+		#{reviewStar}, #{reviewImg}, #{keycapNum})
+	</if>
+	</insert>
+		
+	<!-- 리뷰 수정 -->
+	<update id="update">
+		UPDATE review
+		SET review_content=#{reviewContent}, review_star=#{reviewStar}, review_date=Now()
+		
+		<!-- reviewImg가 null이 아닐때만 바꿔라 -->
+		<if test="reviewImg != null">
+			, review_img=#{reviewImg}
+		</if>
+		
+		WHERE review_num=#{reviewNum}
+	</update>
+	
+	<delete id="delete">
+		DELETE FROM review
+		WHERE review_num=#{reviewNum}
+	</delete>
+	
+	<!-- 리뷰내역 각각의 값(데이터베이스에서 얻은 값들을 찾아서 item에 주기위해) -->
+	<select id="item" resultMap="ReviewMap">
+		SELECT review.*, orders.order_seq_num onm, orders.keycap_name, orders.order_img, orders.order_state,
+		keycap.keycap_category 
+		FROM review
+		LEFT JOIN orders ON review.order_seq_num = orders.order_seq_num
+		JOIN keycap ON keycap.keycap_num = review.keycap_num
+		GROUP BY review.review_num
+		HAVING review.review_num=#{reviewNum}
+		ORDER BY review.review_num DESC
+	</select>	
+</mapper>

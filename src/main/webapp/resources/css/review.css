@@ -1,0 +1,134 @@
+.rating-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 110%; /* 컨테이너의 너비를 정의 */
+}
+
+.rating {
+  unicode-bidi: bidi-override;
+  direction: rtl; /*왼쪽에서 오른쪽으로*/
+  display: inline-block; 
+  padding: 0;
+  margin: 0; /* auto 대신 0으로 설정 */
+}
+
+.rating > input {
+  visibility: hidden;
+}
+
+.rating > label {
+  display: inline;
+  position: relative;
+  width: 1em;
+  cursor: pointer;
+  font-size: 30px;
+  color: #ddd; /* 별점의 기본 색상 */
+  margin-right: 10px; /* 오른쪽 마진 추가 */
+}
+
+.rating > label::before {
+  content: "\2605";
+  position: absolute;
+}
+
+.rating > input:checked ~ label,
+.rating > input:checked ~ label::before {
+  color: #FFD700; /* 선택된 별점의 색상 */
+}
+
+.rating-container-review.rating-container {
+  width: 100%; 
+}
+
+.rating .fa-star {
+    color: gold;
+}
+
+.rating-container strong {
+    margin-left: 5px;  
+}
+
+.rating-container .rating li {
+    display: inline-block;
+}
+
+.fa-star-half-alt {
+    color: gold;
+}
+/* ck에디터(textarea) */
+.ck.ck-content {
+	width: 100%;    /* textarea의 너비를 부모 요소의 100%로 설정 */
+	height: 100%;
+	max-width: 100vh;
+	min-width: 50vh;
+    min-height: 50vh;
+    max-height: 100vh;
+}
+/* 더보기 기능 클릭 전, 접기 버튼 클릭 후  사진 */
+.ckeditor_content .announcement-review
+{
+	border: 1px solid #666666;
+    height: auto;
+    margin: 0 auto;
+    width: 144px;
+    height: 144px;
+    vertical-align: middle;
+}
+/* 더보기 기능 클릭 시 사진 */
+.more-text .announcement-list li .announcement-review
+{
+	border: 1px solid #666666;
+    height: auto;
+    margin: 0 auto;
+    max-width: 250px;
+    min-width: 200px;
+    max-height: 250px;
+    min-height: 200px;
+    vertical-align: middle;
+}
+.ckeditor_content > .photo-box.firstImage > .photo-big
+ > .announcement-list li {
+ 	padding: 0;
+    position: relative;
+    float: left;
+    margin: 20px 0;
+    box-sizing: border-box;
+ }
+
+.announcement-list li > .total-image-count {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 26px;
+    height: 26px;
+    background-color: rgba(0,0,0,.4);
+    line-height: 26px;
+    font-family: tahoma,helvetica,"\B098\B214\ACE0\B515","Nanum Gothic","\B098\B214\C2A4\D018\C5B4","Nanum Square","Apple SD Gothic Neo","Malgun Gothic","\B9D1\C740 \ACE0\B515",dotum,"\B3CB\C6C0",sans-serif;
+    font-size: 13px;
+    color: #fff;
+    text-align: center;
+}
+
+.ckeditor_content {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.more-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #f8f9fa;
+    color: #212529;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+}
+
+.more-button:hover {
+    background-color: #e2e6ea;
+}

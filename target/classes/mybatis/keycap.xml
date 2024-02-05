@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--  namespace 와 id는 Dao에서 쓰임 -->
+<!-- resultType을 쓰는 이유는 mybatis 에서 쓰기 좋게 바꿔주려고 Keycap 라는 객체를 씀(mybatis에서  Keycap 라는 객체를 
+	만들어줌 => 데이터베이스에서 얻은 값들을 찾아서 item에 주기위해 -->
+	<mapper namespace="keycap" >
+	<!--  Map, join -->
+	<resultMap type="KeycapVo" id="KeycapMap">
+		<id column="keycap_num" property="keycapNum" />
+		<result column="keycap_id" property="keycapId" />
+		<result column="keycap_reg_date" property="keycapRegDate" />
+		<result column="keycap_name" property="keycapName" />
+		<result column="keycap_stock" property="keycapStock" />
+		<result column="keycap_img" property="keycapImg" />
+		<result column="keycap_read_count" property="keycapReadCount" />
+		<result column="keycap_like" property="keycapLike" />
+		<result column="keycap_price" property="keycapPrice" />
+		<result column="keycap_category" property="keycapCategory" />
+		<result column="keycap_order" property="keycapOrder" />
+		<result column="keycap_content" property="keycapContent" />
+		<result column="admin_id" property="adminId" />
+			
+	  	<collection property="review" column="rnm" ofType="ReviewVo" javaType="ArrayList">
+			<id column="review_num" property="reviewNum" />
+			<result column="keycap_num" property="keycapNum" />
+		</collection>
+	</resultMap>
+	
+	<!-- keycap_num => 언더바스코어 -->
+	<sql id="search">
+		SELECT * FROM keycap
+		<where>			
+			<if test="keyword != null">
+				keycap_name LIKE CONCAT('%', CONCAT(#{keyword},'%'))
+			</if>
+		</where>
+	</sql>
+		
+	<select id="total" resultType="Integer">
+		SELECT COUNT(*) FROM
+		(<include refid="search"></include>) sub
+	</select>
+
+	<!-- 신상품순, LIMIT => mySql 에서 페이저 -->
+	<select id="list" resultType="KeycapVo" >
+		SELECT * FROM
+		(<include refid="search"></include>) sub
+		ORDER BY keycap_num DESC
+		LIMIT #{offset}, #{perPage}
+	</select>
+	
+	<!-- 베스트상품 순, LIMIT => mySql 에서 페이저 -->
+	<select id="listBest" resultType="KeycapVo" >
+		SELECT * FROM
+		(<include refid="search"></include>) sub
+		ORDER BY keycap_order DESC
+		LIMIT #{offset}, #{perPage}
+	</select>
+		
+	<!-- 높은가격 순, LIMIT => mySql 에서 페이저 -->
+	<select id="listPriceDesc" resultType="KeycapVo" >
+		SELECT * FROM
+		(<include refid="search"></include>) sub
+		ORDER BY keycap_price DESC
+		LIMIT #{offset}, #{perPage}
+	</select>
+	
+	<!-- 낮은가격 순, LIMIT => mySql 에서 페이저 -->
+	<select id="listPriceAsc" resultType="KeycapVo" >
+		SELECT * FROM
+		(<include refid="search"></include>) sub
+		ORDER BY keycap_price
+		LIMIT #{offset}, #{perPage}
+	</select>
+	
+	<!-- 리뷰 많은 순, LIMIT => mySql 에서 페이저 -->
+	<select id="listReviewDesc" resultMap="KeycapMap" >
+		SELECT sub.*, COUNT(review.keycap_num) AS review_count
+		FROM (<include refid="search"></include>) sub
+		LEFT JOIN review ON review.keycap_num = sub.keycap_num
+		GROUP BY sub.keycap_num
+		ORDER BY review_count DESC, keycap_num DESC
+		LIMIT #{offset}, #{perPage}
+	</select>
+	
+	<!-- #{}은 필드명, mybatis-config 에서 세팅해주면 이것을 자동으로 고쳐줌(자바표기법:낙타 표기법) -->
+	<!-- keycapImg에 null이 들어가는것을 방지하기 위해 if문을 씀 -->
+	<insert id="add">
+		<if test="keycapImg == null">
+			INSERT INTO keycap
+			(keycap_num, keycap_name, keycap_reg_date, keycap_stock, keycap_read_count, keycap_like, keycap_price, keycap_category, keycap_order, admin_Id, keycap_id)
+			VALUES (IFNULL(MAX(keycap_num),0)+1, #{keycapName}, NOW(), #{keycapStock}, #{keycapReadCount}, #{keycapLike}, #{keycapPrice}, #{keycapCategory}, 0, #{adminId}, #{keycapId})
+		</if>
+		<if test="keycapImg != null">
+			INSERT INTO keycap
+			(keycap_num, keycap_name, keycap_reg_date, keycap_stock, keycap_read_count, keycap_like, keycap_img, keycap_content, keycap_price, keycap_category, keycap_order, admin_Id, keycap_id)
+			VALUES ((SELECT * FROM (SELECT IFNULL(MAX(keycap_num), 0) + 1 FROM keycap) AS keycapNum), #{keycapName}, NOW(), #{keycapStock}, #{keycapReadCount}, #{keycapLike}, #{keycapImg}, #{keycapContent}, #{keycapPrice}, #{keycapCategory}, 0, #{adminId}, #{keycapId})
+		</if>
+		
+	</insert>
+	
+	<update id="update">
+		UPDATE keycap 
+		SET keycap_reg_date=NOW(), keycap_stock=#{keycapStock}, 
+		keycap_price=#{keycapPrice}, keycap_category=#{keycapCategory},
+		keycap_content=#{keycapContent},
+		admin_id=#{adminId}
+		
+		<!-- keycapImg가 null이 아닐때만 바꿔라 -->
+		<if test="keycapImg != null">
+			, keycap_img=#{keycapImg}
+		</if>
+				
+		WHERE keycap_num=#{keycapNum}
+	</update>
+	
+	<!-- 조회수 +1 -->
+	<update id="keycapReadCount" parameterType="int">
+		 UPDATE keycap 
+		 SET keycap_read_count = keycap_read_count + 1 
+		 WHERE keycap_num =#{keycapNum}
+	</update>
+	
+	<!-- 찜하기 +1 -->
+	<update id="keycapLike" parameterType="int">
+		 UPDATE keycap 
+		 SET keycap_like = keycap_like + 1 
+		 WHERE keycap_num =#{keycapNum}
+	</update>
+	
+	<!-- 찜하기 -1 -->
+	<update id="keycapLikeMa" parameterType="int">
+		 UPDATE keycap 
+		 SET keycap_like = keycap_like - 1 
+		 WHERE keycap_num =#{keycapNum}
+	</update>
+	
+	<!-- 주문(확정)수 -->
+	<update id="keycapOrder" parameterType="int">
+		 UPDATE keycap 
+		 SET keycap_order = keycap_order + #{keycapOrder}
+		 WHERE keycap_num =#{keycapNum}
+	</update>
+	
+	<!-- 상품 재고 변경 -->
+	<update id="keycapOrderStock" parameterType="int">
+		 UPDATE keycap 
+		 SET keycap_stock = #{keycapStock}
+		 WHERE keycap_num =#{keycapNum}
+	</update>	
+	
+	<delete id="delete">
+		DELETE FROM keycap
+		WHERE keycap_num=#{keycapNum}
+	</delete>
+		
+	<!-- 상품 각각의 값(데이터베이스에서 얻은 값들을 찾아서 item에 주기위해) -->
+	<select id="item" resultType="KeycapVo">
+		SELECT * FROM keycap
+		WHERE keycap_num=#{keycapNum}
+	</select>
+	
+</mapper>
+

@@ -1,0 +1,194 @@
+.contents {
+	margin-top: 50px;
+}
+.mypage-header {
+	border-bottom: 3px solid #000000;
+    padding-bottom: 14px;
+    font-family: "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    line-height: 1.5;
+    font-size: 14px;
+    position: relative;
+}
+.mypage-header > .mypage-list-ul {
+	padding: 14px 0 10px;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    font-family: "Musinsa", sans-serif;
+}
+.mypage-header > .mypage-list-ul li {
+	display: inline-block;
+    color: #ccc;
+    margin-right: 16px;
+}
+.mypage-header > .mypage-list-ul li > a:hover {
+	color: #0078ff;
+}
+.info-text {
+	font-family: "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    line-height: 1.5;
+    font-size: 14px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.info-text li {
+	list-style-type: disc;
+	text-align: left;
+	color: #777777;
+    padding-left: 8px;
+    position: relative;
+    line-height: 1.5;
+}
+.mypage-table {
+	border-top: 1px solid #000000;
+	width: 100%;
+    font-family: "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    line-height: 1.5;
+    font-size: 14px;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+.mypage-table th {
+	height: 52px;
+    border-bottom: 1px solid #000000;
+    font-size: 16px;
+    vertical-align: middle;
+    font-weight: normal; 
+}
+.mypage-table td {
+	height: 70px;
+    padding: 15px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #f1f1f1;
+    text-align: center;
+    vertical-align: middle;
+    word-break: break-all;
+}
+.mypage-table .info li {
+    font-size: 14px;
+    line-height: 22px;
+}
+.mypage-table .announcemen-box .info .category {
+    font-weight: 300;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.mypage-table .announcemen-box .info .name {
+    max-height: 44px;
+    font-weight: bold;
+    overflow: hidden;
+    color: #333;
+}
+.mypage-table .announcemen-box .info .price {
+    margin-top: 6px;
+    font-weight: normal;
+}
+.announcemen-box .info a {
+    display: inline-block;
+}
+.mypage-table .btn-set.tooltip {
+    position: relative;
+}
+.mypage-table .state {
+    display: inline-block;
+    margin: 2px 0;
+}
+.n-link {
+    display: inline-block;
+    font-family: "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    line-height: 1.5;
+    font-size: 14px;
+    color: #0078ff;
+    text-decoration: underline;
+    border: 0;
+    padding: 0;
+    background: none;
+}
+.mypage-table .mypage-btn-review {
+	white-space: nowrap;
+    width: 105px;
+    display: block;
+    min-width: 90px;
+    margin: 4px auto;
+    border: 1px solid #333;
+    background-color: #333;
+    eight: 32px;
+    line-height: 30px;
+    padding-top: 0;
+    font-family: "Apple SD Gothic Neo", "Noto Sans KR", sans-serif !important;
+    color: white;
+}
+.mypage-table .mypage-btn-review:hover {
+	background-color: #0078ff;
+	border: 1px solid #0078ff;
+}
+.r-link {
+    display: inline-block;
+    font-family: "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    line-height: 1.5;
+    font-size: 14px;
+    color: #777777;
+    border: 0;
+    padding: 0;
+    background: none;
+}
+.r-link:hover {
+	color: #0078ff;
+	border-bottom: 1px solid #0078ff;
+}
+.mypage-trHover:hover {
+	background-color: #eee;
+}
+.heartColor {
+	color: #f33;
+    font-weight: bold;
+    line-height: 16px;
+}
+#order-btn {
+	width: 100%;
+	border-color: #434343;
+    background-color: #434343;
+    color: #fff;
+    height: 42px;
+    font-size: 17px;
+    line-height: 40px;
+    min-width: 100px;
+    padding: 0 14px;
+    cursor: pointer;
+    box-sizing: border-box;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 2px;
+    transition: border-color 0.2s, background-color 0.2s;
+    margin-top: 10px;
+}
+#order-btn:hover {
+	background-color: #0078ff;
+    border: 1px solid #0078ff;
+}
+/*
+.mypage_wrap {
+    min-height: calc(100vh - 85px);
+    display: flex;
+    align-items: flex-start;
+}
+.mypage_wrap .mypage_cont {
+    padding: 80px 0 100px;
+    margin: 0 auto;
+    width: 600px;
+}
+.mypage_wrap .mypage_cont .mypage_innerLogin, .mypage_wrap .mypage_cont .mypage_innerJoin {
+    max-width: 410px;
+    margin: 0 auto;
+}
+
+.a-table-view02 {
+	display: flex;
+  	justify-content: center;
+  	align-items: center;
+  	width: 1280px;
+    margin: 0 auto;
+}
+*/

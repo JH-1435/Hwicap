@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="orders">
+<!--  Map, join -->
+	  <resultMap type="OrdersVo" id="OrdersMap"> 
+		<id column="order_seq_num" property="orderSeqNum" />
+		<result column="order_stock" property="orderStock" />
+		<result column="order_price" property="orderPrice" />
+		<result column="order_img" property="orderImg" />
+		<result column="order_user_name" property="orderUserName" />
+		<result column="order_tel" property="orderTel" />
+		<result column="order_call" property="orderCall" />
+		<result column="order_address" property="orderAddress" />
+		<result column="order_msg" property="orderMsg" />
+		<result column="order_pay" property="orderPay" />
+		<result column="order_card" property="orderCard" />
+		<result column="order_card_plan" property="orderCardPlan" />
+		<result column="order_tel_plan" property="orderTelPlan" />
+		<result column="order_state" property="orderState" />
+		<result column="order_pay_date" property="orderPayDate" />
+		<result column="user_id" property="userId" />
+		<result column="user_name" property="userName" />
+		<result column="user_tel" property="userTel" />
+		<result column="user_address" property="userAddress" />
+		<result column="keycap_num" property="keycapNum" />
+		<result column="keycap_name" property="keycapName" />
+
+		<collection property="keycap" column="knm" ofType="KeycapVo" javaType="ArrayList">
+			<id column="keycap_num" property="keycapNum" />
+			<result column="keycap_category" property="keycapCategory" />
+
+			<result column="admin_id" property="adminId" />
+		 </collection>
+	</resultMap>
+	<!-- 회원 각각의 검색 -->
+	<select id="totalUser" resultType="Integer">
+		SELECT COUNT(*) FROM
+		(<include refid="search"></include>) sub
+	</select>
+	
+	<!-- 회원 각각의 주문내역 -->
+	<select id="listUser" resultMap="OrdersMap">
+		SELECT sub.*, keycap.keycap_category 
+		FROM
+		(<include refid="search"></include>) sub
+		LEFT JOIN keycap ON keycap.keycap_num = sub.keycap_num
+		GROUP BY sub.order_seq_num
+		HAVING user_id=#{pager.userId}
+		ORDER BY order_seq_num DESC
+		LIMIT #{pager.offset}, #{pager.perPage}
+	</select>
+	
+	<!-- 회원 각각의 검색조건 - list라는 map으로 보내줬기에 Pager.java에 user_id getters setters 를 해주고 
+	dao로 부터 받은 xml에선 list맵 안에 있는 userId와 keyword를 스스로 못찾기에 pager에 있다고 표기(pager.user_id 처럼)해줘야 한다.-->
+	<sql id="search">
+		SELECT * FROM orders
+		<where>			
+			orders.user_id=#{pager.userId}	
+			<if test="pager.keyword != null and pager.keyword != ''">
+				AND orders.keycap_name LIKE CONCAT('%', CONCAT(#{pager.keyword},'%'))
+			</if>
+		</where>
+		ORDER BY orders.order_seq_num DESC
+	</sql>
+
+	<!-- 관리자의 한꺼번에 검색 -->
+	<select id="total" resultType="Integer">
+		SELECT COUNT(*) FROM 
+		(
+			SELECT * FROM orders
+			<where>		
+				<if test="search != null and keyword != null">
+				<choose>
+					<when test="search == 1">
+						keycap_name LIKE CONCAT('%', #{keyword}, '%')
+					</when>
+					<when test="search == 2">
+						user_id LIKE CONCAT('%', #{keyword}, '%')
+					</when>
+				</choose>
+				</if>
+			</where>
+			ORDER BY order_seq_num DESC
+		)sub
+	</select>
+	
+	<!-- 관리자가 한꺼번에 보는 주문내역 -->
+	<select id="list" resultMap="OrdersMap">
+		SELECT sub.*, keycap.keycap_category 
+		FROM
+		(
+			SELECT * FROM orders
+			<where>		
+				<if test="search != null and keyword != null">
+				<choose>
+					<when test="search == 1">
+						keycap_name LIKE CONCAT('%', #{keyword}, '%')
+					</when>
+					<when test="search == 2">
+						user_id LIKE CONCAT('%', #{keyword}, '%')
+					</when>
+				</choose>
+				</if>
+			</where>
+		)sub
+		LEFT JOIN keycap ON keycap.keycap_num = sub.keycap_num
+		GROUP BY sub.order_seq_num
+		ORDER BY order_seq_num DESC
+		LIMIT #{offset}, #{perPage}
+	</select>
+	
+	<update id="update">
+		UPDATE orders
+		SET order_stock=#{orderStock}, order_price=#{orderPrice}, order_user_name=#{orderUserName}, order_tel=#{orderTel},
+		order_call=#{orderCall}, order_address=#{orderAddress}, order_msg=#{orderMsg}, order_pay_date=NOW()
+		WHERE order_seq_num=#{orderSeqNum}
+	</update>
+	
+	<!-- 배송상태(결제완료,배송중,배송완료, 구매확정 등) 변경 -->
+	<update id="updateMsg">
+		UPDATE orders
+		SET order_state=#{orderState}
+		WHERE order_seq_num=#{orderSeqNum}
+	</update>
+	
+	<delete id="delete">
+		DELETE FROM orders
+		WHERE order_seq_num=#{orderSeqNum}
+	</delete>
+	
+	<insert id="add">
+		INSERT INTO orders
+		(order_seq_num, keycap_num, keycap_name, user_id, user_name, user_tel, user_address, order_stock, order_price, order_pay_date,
+		order_img, order_user_name, order_tel, order_call, order_address, order_msg, order_pay, order_card, order_card_plan,
+		order_tel_plan, order_state)
+		VALUES ((SELECT * FROM (SELECT IFNULL(MAX(order_seq_num), 0) + 1 FROM orders) AS orderSeqNum), #{keycapNum}, #{keycapName},
+		#{userId}, #{userName}, #{userTel}, #{userAddress}, #{orderStock}, #{orderPrice}, NOW(),
+		#{orderImg}, #{orderUserName}, #{orderTel}, #{orderCall}, #{orderAddress}, #{orderMsg}, #{orderPay}, #{orderCard}, #{orderCardPlan},
+		#{orderTelPlan}, #{orderState})
+	</insert>
+	
+	<!-- 주문내역 각각의 값(데이터베이스에서 얻은 값들을 찾아서 item에 주기위해) -->
+	<select id="item" resultMap="OrdersMap">
+		SELECT orders.*, keycap.keycap_category
+		FROM orders
+		LEFT JOIN keycap ON keycap.keycap_num = orders.keycap_num
+		GROUP BY orders.order_seq_num
+		HAVING orders.order_seq_num=#{orderSeqNum}
+		ORDER BY orders.order_seq_num DESC
+	</select>
+</mapper>

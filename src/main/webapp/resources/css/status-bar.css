@@ -1,0 +1,90 @@
+#header-wrap {
+	width: 100%;
+    position: relative;
+    top: 0; 
+    margin: 0 auto; 
+    z-index: 9999; /* 다른요소 보다 위에 위치하도록 z-index 값을 증가 */
+    border-bottom: 1px solid #eaeaea;
+    box-shadow: none;
+    background: #f4f5f5;
+}
+.status-bar {
+    margin: 0 auto;
+    font-size: 14px;
+    font-weight: 600;
+    width: 100%;
+    display: flex; 
+    top: 0;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1260px;
+}
+.status-bar a {
+    padding: 0px 10px;
+}
+.status-bar-a:hover {
+    border: 2px solid #1d2b38;
+    background-color: #000;
+    color: #ffffff;
+}
+.status-bar #login-admin a {
+	color: #d9d9d9;
+}
+.status-bar #login-admin02 {
+    margin: 0 auto;
+   	border: 2px solid #1d2b38;
+	background-color: black;
+	color: white;
+}
+.search-index {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 5px 10px 50px;
+    margin-left: auto; 
+    font-size: 13px;
+ }
+ .search-list {
+ 	display: flex;
+ 	margin-left: auto; 
+    margin-bottom: 10px;
+    justify-content: center;
+}
+.status-bar-login {
+	display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#search-container {
+	position: relative;
+}
+#status-bar-search {
+    position: relative;
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    line-height: 36px;
+    word-break: break-all;
+    white-space: nowrap;
+    word-wrap: normal;
+    width: 218px;
+    height: 40px;
+    padding: 2px 45px 0 20px;
+    border-radius: 20px;
+    border: 1px solid rgba(0,0,0,.2);
+    background-color: transparent;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    font-size: 12px;
+    color: #000;
+    text-align: left;
+    background-color: #fff;
+}
+.search-icon {
+	position: absolute;
+	right: 5px;
+	top: 10px;
+}
+.status-bar-a {
+    display: inline;
+}

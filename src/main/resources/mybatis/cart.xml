@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cart">
+	<!--  Map, join -->
+	  <resultMap type="CartVO" id="CartMap"> 
+		<id column="cart_num" property="cartNum" />
+		<result column="cart_count" property="cartCount" />
+		<result column="cart_date" property="cartDate" />
+		<result column="user_id" property="userId" />
+		<result column="keycap_num" property="keycapNum" />
+
+		<collection property="keycap" column="knm" ofType="KeycapVo" javaType="ArrayList">
+			<id column="keycap_num" property="keycapNum" />
+			<result column="keycap_id" property="keycapId" />
+			<result column="keycap_reg_date" property="keycapRegDate" />
+			<result column="keycap_name" property="keycapName" />
+			<result column="keycap_stock" property="keycapStock" />
+			<result column="keycap_img" property="keycapImg" />
+			<result column="keycap_read_count" property="keycapReadCount" />
+			<result column="keycap_like" property="keycapLike" />
+			<result column="keycap_price" property="keycapPrice" />
+			<result column="keycap_category" property="keycapCategory" />
+			<result column="keycap_order" property="keycapOrder" />
+
+			<result column="admin_id" property="adminId" />
+		 </collection>
+		 
+		 <collection property="user" column="unm" ofType="UserVo" javaType="ArrayList">
+			<id column="user_id" property="userId" />
+			<result column="user_pw" property="userPw" />
+			<result column="user_name" property="userName" />
+			<result column="user_address" property="userAddress" />
+			<result column="user_tel" property="userTel" />
+		 </collection>
+	</resultMap>
+ <!-- 장바구니 중복 상품 체크 	-->
+	<select id="selectCountInCart" resultType="String" parameterType="CartVO">
+	<![CDATA[
+		SELECT IF(COUNT(*) <= 0, 'false', 'true') FROM cart
+		WHERE keycap_num=#{keycapNum} AND user_id=#{userId}
+		ORDER BY cart_num DESC
+	]]>
+ 	</select>
+ 	
+ <!-- 장바구니 리스트보기 	-->
+	<select id="list" resultMap="CartMap">
+		SELECT cart.*, keycap.keycap_num knm, keycap.keycap_id, keycap.keycap_name, keycap.keycap_price,
+		keycap.keycap_img, keycap.keycap_like, keycap.keycap_category, keycap.keycap_order, keycap.keycap_stock,
+		user.user_id unm, user.user_name, user.user_address, user.user_tel
+		FROM cart 
+		JOIN keycap ON cart.keycap_num = keycap.keycap_num
+		JOIN user ON cart.user_id = user.user_id 
+		WHERE cart.user_id=#{userId}
+		ORDER BY cart.cart_num DESC
+ 	</select>
+ 		
+	<!-- 장바구니 추가 -->
+	<insert id="add" parameterType="CartVO">
+		INSERT INTO cart
+		(cart_num, user_id, keycap_num, cart_count, cart_date)
+		VALUES ((SELECT * FROM (SELECT IFNULL(MAX(cart_num), 0) + 1 FROM cart) AS cartNum), #{userId}, #{keycapNum}, #{cartCount}, NOW())
+  		
+		<!-- cartNum 를 item 으로 읽어 와서 OrdersVo 객체에 설정하는 방법을 사용하는 것 -->
+		<!-- 방금 입력한 값의 특정값을 리턴 -->
+		<selectKey resultType="Integer" keyProperty="cartNum" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>	
+	</insert>
+	
+	<!-- 장바구니 수정 -->
+	<update id="update">
+		UPDATE cart
+		SET cart_count=#{cartCount}
+		WHERE cart_num=#{cartNum}
+	</update>
+	
+	<!-- 장바구니 삭제 -->
+	<delete id="delete">
+		DELETE FROM cart
+		WHERE cart_num=#{cartNum}
+	</delete>
+			
+	<!-- 장바구니내역 각각의 값(데이터베이스에서 얻은 값들을 찾아서 item에 주기위해) -->
+	  <select id="item" resultMap="CartMap">
+		SELECT cart.*, keycap.keycap_num knm, keycap.keycap_id, keycap.keycap_name, keycap.keycap_price,
+		keycap.keycap_img, keycap.keycap_like, keycap.keycap_category, keycap.keycap_order, keycap.keycap_stock,
+		user.user_id unm, user.user_name, user.user_address, user.user_tel
+		FROM cart 
+		JOIN keycap ON cart.keycap_num = keycap.keycap_num
+		JOIN user ON cart.user_id = user.user_id 
+		WHERE cart.cart_num=#{cartNum}
+		ORDER BY cart.cart_num DESC
+	</select>
+</mapper>

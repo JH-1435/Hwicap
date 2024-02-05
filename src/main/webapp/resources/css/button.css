@@ -1,0 +1,43 @@
+@charset "UTF-8";
+
+.btn-group {
+	float: right;
+    margin-top: 10px;
+}
+.btn-group .end-btn {
+	float: left;
+    display: block;
+    padding: 8px 20px 8px 20px;
+    text-align: center;
+    margin-left: 10px;
+    color: #ffffff;
+    font-size: 14px;
+    border: 1px solid #5c5c5c;
+    font-weight: 600;
+    background-color: #5c5c5c;
+    cursor: pointer; 
+}
+.btn-group .end-btn:hover {
+	border: 1px solid #333;
+	background-color: #333;
+}
+.btn-group i {
+	margin-right: 5px;
+}
+.list-btn {
+	display: inline-block;
+    margin-top: 20px;
+    padding: 0 31px;
+    border: 1px solid #e1e1e1;
+    border-radius: 3px;
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 48px;
+    color: #222;
+    vertical-align: top;
+}
+.list-btn:hover {
+	 border: 1px solid #333;
+	 background-color: #333;
+	 color: white;
+}

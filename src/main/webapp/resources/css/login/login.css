@@ -1,0 +1,102 @@
+@charset "UTF-8";
+.login-wrap {
+	max-width:1260px;
+	margin:0 auto;
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.login-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0px auto;
+    text-align: center;
+    padding: 15px 0;
+    margin-top: 50px;
+}
+.login-text h2 {
+	font-size: 42px;
+}
+.login-form {
+    background: #ffffff;
+    max-width: 646px;
+    height: 60vh;
+    padding: 0 70px;
+    overflow: hidden;
+    margin: 0 auto;
+    position: relative;
+    align-self: center; /* 부모 요소의 중앙에 정렬 */
+}
+.login-entry {
+	display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-bottom: 1px #ddd solid;
+    font-size: 13px;
+}
+.login-list ul li {
+	position: relative;
+    font-size: 18px;
+    margin: 0 0 10px 0;
+}
+.login-list ul li input {
+	display: flex;
+	justify-content:center;
+	align-items:center;
+	padding-top: 5px;
+	height: 60px;
+    background: #ffffff;
+    padding: 10px 20px;
+    border: 1px solid #d9d9d9;
+    width: 100%;
+}
+#login .signup-btn {
+	cursor: pointer;
+	text-align: center;
+	display: inline-block;
+	margin-top: 15px;
+	padding: 10px 228px;
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 40px;
+	background-color: #434343;
+	color: #fff;
+}
+#login .signup-btn:hover {
+	background-color: #333;
+}
+#signup01 .signup-btn {
+	cursor: pointer;
+	text-align: center;
+	display: inline-block;
+	margin: 15px 0;
+	padding: 10px 221px;
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 30px;
+	background-color: #434343;
+	color: #fff;
+}
+#signup01 .signup-btn:hover {
+	background-color: #333;
+}
+#oauth-btn {
+	display: flex;
+    justify-content: space-between; /* 가로 방향으로 중앙 정렬 */
+    align-items: center; /* 세로 방향으로 중앙 정렬 */
+    max-width: 506px;
+}
+#oauth-btn > .oauthLogin {
+	width: 100%;
+	margin: 10px 5px;
+}
+#oauth-btn > .oauthLogin img {
+	width: 100%;
+	height: auto; /* 이미지의 비율을 유지하면서 높이를 조절 */
+    max-height: 84.17px;
+}
+#oauth-btn > .oauthLogin img:hover {
+	width: 200px;
+}

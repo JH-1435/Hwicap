@@ -1,0 +1,26 @@
+#container-wrap {
+	width: 100%;
+    height: auto;
+    position: relative;
+    margin: 0 auto;
+    overflow: hidden;
+}
+.search {
+	display: block;
+    padding: 10px 5px 10px 50px;
+    margin: 40px auto;
+    font-size: 13px;
+    border: 2px solid #cdcdcd;
+}
+.search .button {
+	background-color: #3A3A3A;
+	color: white;
+}
+.clear {
+	clear: both;	
+}
+#keycapLinkList > .keycapLink {
+    font-size: 13px;
+    line-height: 27px;
+    outline: none;
+}

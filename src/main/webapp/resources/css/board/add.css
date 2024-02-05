@@ -1,0 +1,22 @@
+.boardTitle {
+	margin: 0 5px;
+}
+.QnA-list {
+	font-family: "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    line-height: 1.5;
+    font-size: 14px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.QnA-list > .QnA-text {
+	list-style-type: disc;
+	text-align: left;
+}
+.QnA-title {
+	padding: 0 10px;
+	font-weight: 600;
+    font-size: 18px;
+    line-height: 24px;
+    font-family: "Musinsa", sans-serif;
+    color: #333;
+}

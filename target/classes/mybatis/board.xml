@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board">
+<!--  Map, join -->
+	  <resultMap type="BoardVo" id="BoardMap"> 
+		<id column="board_num" property="boardNum" />
+		<result column="board_title" property="boardTitle" />
+		<result column="board_content" property="boardContent" />
+		<result column="board_answer" property="boardAnswer" />
+		<result column="board_img" property="boardImg" />
+		<result column="board_date" property="boardDate" />
+		<result column="board_yn" property="boardYn" />
+		<result column="user_id" property="userId" />
+		<result column="keycap_num" property="keycapNum" />
+
+		<collection property="keycap" column="knm" ofType="KeycapVo" javaType="ArrayList">
+			<id column="keycap_num" property="keycapNum" />
+			<result column="keycap_id" property="keycapId" />
+			<result column="keycap_reg_date" property="keycapRegDate" />
+			<result column="keycap_name" property="keycapName" />
+			<result column="keycap_stock" property="keycapStock" />
+			<result column="keycap_img" property="keycapImg" />
+			<result column="keycap_read_count" property="keycapReadCount" />
+			<result column="keycap_like" property="keycapLike" />
+			<result column="keycap_price" property="keycapPrice" />
+			<result column="keycap_category" property="keycapCategory" />
+			<result column="keycap_order" property="keycapOrder" />
+
+			<result column="admin_id" property="adminId" />
+		 </collection>
+		 
+		 <collection property="user" column="unm" ofType="UserVo" javaType="ArrayList">
+			<id column="user_id" property="userId" />
+			<result column="user_pw" property="userPw" />
+			<result column="user_name" property="userName" />
+			<result column="user_address" property="userAddress" />
+			<result column="user_tel" property="userTel" />
+		 </collection>
+	</resultMap>
+	
+	<sql id="search">
+		SELECT * FROM board
+		<where>		
+			<if test="search != null and keyword != null">
+				<choose>
+					<when test="search == 1">
+						keycap_name LIKE CONCAT('%', #{keyword}, '%')
+					</when>
+					<when test="search == 2">
+						user_id LIKE CONCAT('%', #{keyword}, '%')
+					</when>
+				</choose>
+			</if>
+		</where>
+	</sql>
+	
+	<!-- 게시글 사용자 와 로그인한 유저 일치체크 -->
+	<select id="selectCountInBoard" resultType="String" parameterType="BoardVO">
+	<![CDATA[
+		SELECT IF(COUNT(*) <= 0, 'false', 'true') FROM board
+		WHERE board_num=#{boardNum} AND user_id=#{userId}
+		ORDER BY board_num DESC
+	]]>
+ 	</select>
+ 	
+	<!-- 상품에 대한 QnA 수 -->
+	<select id="total" resultType="Integer">
+		SELECT COUNT(*) FROM board
+		WHERE board.keycap_num=#{board.keycapNum}
+	</select>
+	
+	<!-- 나의(개인) QnA 수 -->
+	<select id="totalUser" resultType="Integer">
+		SELECT COUNT(*) FROM board
+		WHERE board.user_id=#{pager.userId}
+	</select>
+	
+	<!-- 상품에 대한 QnA 수 -->
+	<select id="totalBoard" resultType="Integer">
+		SELECT COUNT(*)
+		FROM board
+		WHERE keycap_num =#{keycapNum}
+	</select>
+	
+	<!-- 관리자의 한꺼번에 검색 -->
+	<select id="totalAdmin" resultType="Integer">
+		SELECT COUNT(*) FROM 
+		(<include refid="search"></include>) sub
+		LIMIT #{offset}, #{perPage}
+	</select>
+	
+	<!-- 관리자의 QnA 내역 -->
+	<select id="listAdmin" resultMap="BoardMap">
+		SELECT sub.*, keycap.keycap_num knm, keycap.keycap_id, keycap.keycap_name, keycap.keycap_price,
+		keycap.keycap_img, keycap.keycap_like, keycap.keycap_category, keycap.keycap_order
+		FROM (<include refid="search"></include>) sub
+		LEFT JOIN keycap ON keycap.keycap_num = sub.keycap_num
+		GROUP BY sub.board_num
+		ORDER BY sub.board_yn ASC, sub.board_date DESC, sub.board_num DESC
+		LIMIT #{offset}, #{perPage}
+ 	</select>
+ 	
+	<!-- 상품 각각의 QnA 내역 -->
+	<select id="list" resultMap="BoardMap">
+		SELECT board.*, keycap.keycap_num knm, keycap.keycap_id, keycap.keycap_name, keycap.keycap_price,
+		keycap.keycap_img, keycap.keycap_like, keycap.keycap_category, keycap.keycap_order
+		FROM board 
+		LEFT JOIN keycap ON board.keycap_num = keycap.keycap_num
+		GROUP BY board.board_num
+		HAVING board.keycap_num=#{keycapNum}
+		ORDER BY board.board_date DESC, board.board_num DESC
+		LIMIT #{pager.offset}, #{pager.perPage}
+ 	</select>
+ 	
+ 	<!-- 회원 각각의 자신의 QnA 내역 -->
+	<select id="listUser" resultMap="BoardMap">
+		SELECT board.*, keycap.keycap_num knm, keycap.keycap_id, keycap.keycap_name, keycap.keycap_price,
+		keycap.keycap_img, keycap.keycap_like, keycap.keycap_category, keycap.keycap_order
+		FROM board 
+		LEFT JOIN keycap ON board.keycap_num = keycap.keycap_num
+		GROUP BY board.board_num
+		HAVING board.user_id=#{pager.userId}
+		ORDER BY board.board_date DESC, board.board_num DESC
+		LIMIT #{pager.offset}, #{pager.perPage}
+	</select>
+	
+	<!-- QnA 작성 -->
+	<!-- #{}은 필드명, mybatis-config 에서 세팅해주면 이것을 자동으로 고쳐줌(자바표기법:낙타 표기법) -->
+	<!-- boardImg에 null이 들어가는것을 방지하기 위해 if문을 씀 -->
+	<insert id="add">
+	<if test="boardImg == null">
+		INSERT INTO board
+		(board_num, board_title, board_content, board_date, user_id, keycap_num, board_yn, board_answer)
+		VALUES ((SELECT * FROM (SELECT IFNULL(MAX(board_num), 0) + 1 FROM board) AS boardNum), #{boardTitle}, #{boardContent}, NOW(), #{userId}, #{keycapNum}, 0, NULL)
+	</if>
+	<if test="boardImg != null">
+		INSERT INTO board
+		(board_num, board_title, board_content, board_img, board_date, user_id, keycap_num, board_yn, board_answer)
+		VALUES ((SELECT * FROM (SELECT IFNULL(MAX(board_num), 0) + 1 FROM board) AS boardNum), #{boardTitle}, #{boardContent}, #{boardImg}, NOW(), #{userId}, #{keycapNum}, 0, NULL)
+	</if>
+	</insert>
+		
+	<!-- QnA 답변(관리자전용-답변여부,답변 내용) -->
+	<update id="update">
+		UPDATE board
+		SET board_yn=#{boardYn}, board_answer=#{boardAnswer}
+		
+		<!-- boardImg가 null이 아닐때만 바꿔라 -->
+		<if test="boardImg != null">
+			, board_img=#{boardImg}
+		</if>
+		
+		WHERE board_num=#{boardNum}
+	</update>
+	
+	<!-- QnA글 삭제 -->
+	<delete id="delete">
+		DELETE FROM board
+		WHERE board_num=#{boardNum}
+	</delete>
+			
+	<!-- QnA글 각각의 값(데이터베이스에서 얻은 값들을 찾아서 item에 주기위해) -->
+	  <select id="item" resultMap="BoardMap">
+		SELECT board.*, keycap.keycap_num knm, keycap.keycap_id, keycap.keycap_name, keycap.keycap_price,
+		keycap.keycap_img, keycap.keycap_like, keycap.keycap_category, keycap.keycap_order,
+		user.user_id unm, user.user_name, user.user_address, user.user_tel
+		FROM board 
+		LEFT JOIN keycap ON board.keycap_num = keycap.keycap_num
+		JOIN user ON board.user_id = user.user_id 
+		GROUP BY board.board_num
+		HAVING board.board_num=#{boardNum}
+		ORDER BY board.board_num DESC
+	</select>
+</mapper>
