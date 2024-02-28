@@ -67,7 +67,7 @@
     text-align: left;
     justify-content: center;
     margin-top: 50px;
-    position: absolute;
+    position: fixed;
     left: 7%;
 }
 .left-wrap > .admin-list-nav {

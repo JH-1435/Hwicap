@@ -195,8 +195,7 @@
 		    <groupId>io.jsonwebtoken</groupId>
 		    <artifactId>jjwt</artifactId>
 		    <version>0.12.3</version>
-		</dependency>
-		
+		</dependency>		
 	</dependencies>
 	
     <build>

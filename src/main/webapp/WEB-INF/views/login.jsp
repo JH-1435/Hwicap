@@ -48,14 +48,14 @@ function submit() {
         </div>
         <div class="nav-list-container">
             <ul class="nav-list">
-                <li><a href="/keycap/list?sort=null">키캡</a></li>
+            	<li><a href="/">HOME</a></li>
                 <li><a href="/keycap/list?sort=null">NEW</a></li>
                 <li><a href="/keycap/list?sort=best">BEST</a></li>
                 <c:if test="${sessionScope.user == null}">
-                	<li><a href="/login">1대1 문의</a></li>
+                	<li><a href="/login">CONTACT</a></li>
                 </c:if>
                 <c:if test="${sessionScope.user != null}">
-                	<li><a href="/board/${sessionScope.user.userId}/addCs">1대1 문의</a></li>
+                	<li><a href="/board/${sessionScope.user.userId}/addCs">CONTACT</a></li>
                 </c:if>
             </ul>
         </div>

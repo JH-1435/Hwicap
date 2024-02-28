@@ -145,8 +145,7 @@ $(document).ready(function() {
 				<span class="dot" onclick="currentSlide(3)"></span> 
 				<span class="dot" onclick="currentSlide(4)"></span> 
 			</div>
-		</div>
-		
+		</div>	
 	<div id="main-wrap">
 		<div class="announcement-text">
 			<strong class="title-s" style="margin-top: 5%;">신상품</strong>
